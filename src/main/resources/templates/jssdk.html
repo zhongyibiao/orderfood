@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0" />
+<title>WeUI</title>
+<!-- 引入 jquery -->
+<!--  
+<script type="text/javascript"
+	src="@{/js/lib/jquery.js}"></script>
+-->
+<script type="text/javascript" src="./js/lib/jquery.js"></script>
+<!-- 引入 jweixin -->
+<script type="text/javascript"
+	src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+<!-- 引入 vconsole -->
+<script type="text/javascript" src="./js/wechat/vconsole.min.js"></script>
+</head>
+<body>
+	<input type="text" id="timestamp" th:value="${jsApiParam.timeStamp}" />
+	<input type="text" id="nonceStr" th:value="${jsApiParam.nonceStr}" />
+	<input type="text" id="signature" th:value="${jsApiParam.signature}" />
+	<input type="text" id="appId" th:value="${jsApiParam.appid}" />
+	
+	<!--  
+	<input type="text" id="timestamp" th:value="${timestamp}" />
+	<input type="text" id="nonceStr" th:value="${nonceStr}" />
+	<input type="text" id="signature" th:value="${signature}" />
+	<input type="text" id="appId" th:value="${appId}" />
+    -->
+
+	<div class="wxapi_container">
+		<div class="wxapi_index_container">
+			<ul class="label_box lbox_close wxapi_index_list">
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-basic">基础接口</a></li>
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-share">分享接口</a></li>
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-image">图像接口</a></li>
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-voice">音频接口</a></li>
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-smart">智能接口</a></li>
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-device">设备信息接口</a></li>
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-location">地理位置接口</a></li>
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-webview">界面操作接口</a></li>
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-scan">微信扫一扫接口</a></li>
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-shopping">微信小店接口</a></li>
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-card">微信卡券接口</a></li>
+				<li class="label_item wxapi_index_item"><a class="label_inner"
+					href="#menu-pay">微信支付接口</a></li>
+			</ul>
+		</div>
+		<div class="lbox_close wxapi_form">
+			<h3 id="menu-basic">基础接口</h3>
+			<span class="desc">判断当前客户端是否支持指定JS接口</span>
+			<button class="btn btn_primary" id="checkJsApi">checkJsApi</button>
+			<h3 id="menu-share">分享接口</h3>
+			<span class="desc">获取“分享到朋友圈”按钮点击状态及自定义分享内容接口</span>
+			<button class="btn btn_primary" id="onMenuShareTimeline">onMenuShareTimeline</button>
+			<span class="desc">获取“分享给朋友”按钮点击状态及自定义分享内容接口</span>
+			<button class="btn btn_primary" id="onMenuShareAppMessage">onMenuShareAppMessage</button>
+			<span class="desc">获取“分享到QQ”按钮点击状态及自定义分享内容接口</span>
+			<button class="btn btn_primary" id="onMenuShareQQ">onMenuShareQQ</button>
+			<span class="desc">获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口</span>
+			<button class="btn btn_primary" id="onMenuShareWeibo">onMenuShareWeibo</button>
+			<h3 id="menu-image">图像接口</h3>
+			<span class="desc">拍照或从手机相册中选图接口</span>
+			<button class="btn btn_primary" id="chooseImage">chooseImage</button>
+			<span class="desc">预览图片接口</span>
+			<button class="btn btn_primary" id="previewImage">previewImage</button>
+			<span class="desc">上传图片接口</span>
+			<button class="btn btn_primary" id="uploadImage">uploadImage</button>
+			<span class="desc">下载图片接口</span>
+			<button class="btn btn_primary" id="downloadImage">downloadImage</button>
+			<h3 id="menu-voice">音频接口</h3>
+			<span class="desc">开始录音接口</span>
+			<button class="btn btn_primary" id="startRecord">startRecord</button>
+			<span class="desc">停止录音接口</span>
+			<button class="btn btn_primary" id="stopRecord">stopRecord</button>
+			<span class="desc">播放语音接口</span>
+			<button class="btn btn_primary" id="playVoice">playVoice</button>
+			<span class="desc">暂停播放接口</span>
+			<button class="btn btn_primary" id="pauseVoice">pauseVoice</button>
+			<span class="desc">停止播放接口</span>
+			<button class="btn btn_primary" id="stopVoice">stopVoice</button>
+			<span class="desc">上传语音接口</span>
+			<button class="btn btn_primary" id="uploadVoice">uploadVoice</button>
+			<span class="desc">下载语音接口</span>
+			<button class="btn btn_primary" id="downloadVoice">downloadVoice</button>
+			<h3 id="menu-smart">智能接口</h3>
+			<span class="desc">识别音频并返回识别结果接口</span>
+			<button class="btn btn_primary" id="translateVoice">translateVoice</button>
+			<h3 id="menu-device">设备信息接口</h3>
+			<span class="desc">获取网络状态接口</span>
+			<button class="btn btn_primary" id="getNetworkType">getNetworkType</button>
+			<h3 id="menu-location">地理位置接口</h3>
+			<span class="desc">使用微信内置地图查看位置接口</span>
+			<button class="btn btn_primary" id="openLocation">openLocation</button>
+			<span class="desc">获取地理位置接口</span>
+			<button class="btn btn_primary" id="getLocation">getLocation</button>
+			<h3 id="menu-webview">界面操作接口</h3>
+			<span class="desc">隐藏右上角菜单接口</span>
+			<button class="btn btn_primary" id="hideOptionMenu">hideOptionMenu</button>
+			<span class="desc">显示右上角菜单接口</span>
+			<button class="btn btn_primary" id="showOptionMenu">showOptionMenu</button>
+			<span class="desc">关闭当前网页窗口接口</span>
+			<button class="btn btn_primary" id="closeWindow">closeWindow</button>
+			<span class="desc">批量隐藏功能按钮接口</span>
+			<button class="btn btn_primary" id="hideMenuItems">hideMenuItems</button>
+			<span class="desc">批量显示功能按钮接口</span>
+			<button class="btn btn_primary" id="showMenuItems">showMenuItems</button>
+			<span class="desc">隐藏所有非基础按钮接口</span>
+			<button class="btn btn_primary" id="hideAllNonBaseMenuItem">hideAllNonBaseMenuItem</button>
+			<span class="desc">显示所有功能按钮接口</span>
+			<button class="btn btn_primary" id="showAllNonBaseMenuItem">showAllNonBaseMenuItem</button>
+			<h3 id="menu-scan">微信扫一扫</h3>
+			<span class="desc">调起微信扫一扫接口</span>
+			<button class="btn btn_primary" id="scanQRCode0">scanQRCode(微信处理结果)</button>
+			<button class="btn btn_primary" id="scanQRCode1">scanQRCode(直接返回结果)</button>
+			<h3 id="menu-shopping">微信小店接口</h3>
+			<span class="desc">跳转微信商品页接口</span>
+			<button class="btn btn_primary" id="openProductSpecificView">openProductSpecificView</button>
+			<h3 id="menu-card">微信卡券接口</h3>
+			<span class="desc">批量添加卡券接口</span>
+			<button class="btn btn_primary" id="addCard">addCard</button>
+			<span class="desc">调起适用于门店的卡券列表并获取用户选择列表</span>
+			<button class="btn btn_primary" id="chooseCard">chooseCard</button>
+			<span class="desc">查看微信卡包中的卡券接口</span>
+			<button class="btn btn_primary" id="openCard">openCard</button>
+			<h3 id="menu-pay">微信支付接口</h3>
+			<span class="desc">发起一个微信支付请求</span>
+			<button class="btn btn_primary" id="chooseWXPay">chooseWXPay</button>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	var timestamp = $("#timestamp").val();//时间戳
+	var nonceStr = $("#nonceStr").val();//随机串
+	var signature = $("#signature").val();//签名
+	var appId = $("#appId").val();//签名
+
+	// 然后点击右下角 vConsole 按钮即可查看到 log
+	console.log("timestamp=" + timestamp + " nonceStr=" + nonceStr
+			+ " signature=" + signature + " appId=" + appId);
+
+	/*    
+	 * 注意：    
+	 * 所有需要使用JS-SDK的页面必须先注入配置信息，否则将无法调用（同一个url仅需调用一次，对于变化url的SPA的web app可在每次url变化时进行调用,目前Android微信客户端不支持pushState的H5新特性，所以使用pushState来实现web app的页面会导致签名失败，此问题会在Android6.2中修复）。   
+	 */
+	wx.config({
+		debug : true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+		appId : appId, // 必填，公众号的唯一标识
+		timestamp : timestamp, // 必填，生成签名的时间戳
+		nonceStr : nonceStr, // 必填，生成签名的随机串
+		signature : signature,// 必填，签名
+		jsApiList : [ 'checkJsApi', 'onMenuShareTimeline',
+				'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo',
+				'hideMenuItems', 'showMenuItems', 'hideAllNonBaseMenuItem',
+				'showAllNonBaseMenuItem', 'translateVoice', 'startRecord',
+				'stopRecord', 'onRecordEnd', 'playVoice', 'pauseVoice',
+				'stopVoice', 'uploadVoice', 'downloadVoice', 'chooseImage',
+				'previewImage', 'uploadImage', 'downloadImage',
+				'getNetworkType', 'openLocation', 'getLocation',
+				'hideOptionMenu', 'showOptionMenu', 'closeWindow',
+				'scanQRCode', 'chooseWXPay', 'openProductSpecificView',
+				'addCard', 'chooseCard', 'openCard' ]
+	});
+
+	/*
+	 * config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+	 */
+	wx
+			.ready(function() {
+				// 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+				document.querySelector('#checkJsApi').onclick = function() {
+					wx.checkJsApi({
+						jsApiList : [ 'getNetworkType', 'previewImage' ],
+						success : function(res) {
+							alert(JSON.stringify(res));
+						}
+					});
+				};
+
+				// 2. 分享接口
+				// 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+				document.querySelector('#onMenuShareAppMessage').onclick = function() {
+					wx
+							.onMenuShareAppMessage({
+								title : '互联网之子',
+								desc : '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+								link : 'http://movie.douban.com/subject/25785114/',
+								imgUrl : 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+								trigger : function(res) {
+									alert('用户点击发送给朋友');
+								},
+								success : function(res) {
+									alert('已分享');
+								},
+								cancel : function(res) {
+									alert('已取消');
+								},
+								fail : function(res) {
+									alert(JSON.stringify(res));
+								}
+							});
+					alert('已注册获取“发送给朋友”状态事件');
+				};
+				// 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+				document.querySelector('#onMenuShareTimeline').onclick = function() {
+					wx.onMenuShareTimeline({
+								title : '互联网之子',
+								link : 'http://movie.douban.com/subject/25785114/',
+								imgUrl : 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+								trigger : function(res) {
+									alert('用户点击分享到朋友圈');
+								},
+								success : function(res) {
+									alert('已分享');
+								},
+								cancel : function(res) {
+									alert('已取消');
+								},
+								fail : function(res) {
+									alert(JSON.stringify(res));
+								}
+							});
+					alert('已注册获取“分享到朋友圈”状态事件');
+				};
+				// 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+				document.querySelector('#onMenuShareQQ').onclick = function() {
+					wx
+							.onMenuShareQQ({
+								title : '互联网之子',
+								desc : '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+								link : 'http://movie.douban.com/subject/25785114/',
+								imgUrl : 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+								trigger : function(res) {
+									alert('用户点击分享到QQ');
+								},
+								complete : function(res) {
+									alert(JSON.stringify(res));
+								},
+								success : function(res) {
+									alert('已分享');
+								},
+								cancel : function(res) {
+									alert('已取消');
+								},
+								fail : function(res) {
+									alert(JSON.stringify(res));
+								}
+							});
+					alert('已注册获取“分享到 QQ”状态事件');
+				};
+
+				// 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+				document.querySelector('#onMenuShareWeibo').onclick = function() {
+					wx.onMenuShareWeibo({
+								title : '互联网之子',
+								desc : '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+								link : 'http://movie.douban.com/subject/25785114/',
+								imgUrl : 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg',
+								trigger : function(res) {
+									alert('用户点击分享到微博');
+								},
+								complete : function(res) {
+									alert(JSON.stringify(res));
+								},
+								success : function(res) {
+									alert('已分享');
+								},
+								cancel : function(res) {
+									alert('已取消');
+								},
+								fail : function(res) {
+									alert(JSON.stringify(res));
+								}
+							});
+					alert('已注册获取“分享到微博”状态事件');
+				};
+
+			});
+
+	/*
+	 *
+	 *config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+	 */
+	wx.error(function(res) {
+		alert(res.errMsg);
+	});
+	
+	wx.getNetworkType({
+	    success: function (res) {
+	        var networkType = res.networkType; // 返回网络类型2g，3g，4g，wifi
+	        alert(networkType);
+	    }
+	});
+	
+	wx.closeWindow();
+	
+</script>
+
+</html>

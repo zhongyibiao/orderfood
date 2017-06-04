@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.OrderMapper">
+	<resultMap id="BaseResultMap" type="Order">
+		<id column="order_id" jdbcType="VARCHAR" property="orderId" />
+		<result column="business_id" jdbcType="VARCHAR" property="businessId" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="payment_time" jdbcType="TIMESTAMP" property="paymentTime" />
+		<result column="business_time" jdbcType="TIMESTAMP" property="businessTime" />
+		<result column="order_origin_price" jdbcType="DECIMAL" property="orderOriginPrice" />
+		<result column="order_preferential_price" jdbcType="DECIMAL" property="OraclePreferentialPrice" />
+		<result column="pay_type" jdbcType="VARCHAR" property="payType" />
+		<result column="device_type" jdbcType="VARCHAR" property="deviceType" />
+		<result column="os_type" jdbcType="VARCHAR" property="osType" />
+		<result column="os_type" jdbcType="VARCHAR" property="osType" />
+		<result column="dinner_room_id" jdbcType="VARCHAR" property="dinnerRoomId" />
+		<result column="customer_id" jdbcType="VARCHAR" property="customerId" />
+		<result column="dinner_desk_no" jdbcType="VARCHAR" property="dinnerDeskNo" />
+		<result column="dinner_number" jdbcType="DECIMAL" property="dinnerNumber" />	
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		order_id, business_id, create_time, payment_time, business_time, order_origin_price,
+		order_preferential_price,
+		pay_type,device_type,os_type,dinner_room_id, customer_id, dinner_desk_no,dinner_number, create_by, create_date,
+		update_by,
+		update_date, del_flag
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_order_info
+		where del_flag = 'N' and order_id = #{orderId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectOrders" parameterType="Order" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_order_info
+		where del_flag = 'N'
+		<if test="orderId != null and orderId != ''">
+			and order_id = #{orderId, jdbcTpye=VARCHAR}
+		</if>
+		<if test="businessId != null and businessId != '' ">
+			and business_id = #{businessId, jdbcTpye=VARCHAR}
+		</if>
+		<if test="orderOriginPrice != null and orderOriginPrice != '' ">
+			and order_origin_price = #{orderOriginPrice, jdbcTpye=DECIMAL}
+		</if>
+		<if test="OraclePreferentialPrice != null and OraclePreferentialPrice != '' ">
+			and order_preferential_price = #{OraclePreferentialPrice, jdbcTpye=DECIMAL}
+		</if>
+		<if test="payType != null and payType != '' ">
+			and pay_type = #{payType, jdbcTpye=VARCHAR}
+		</if>
+		<if test="deviceType != null and deviceType != '' ">
+			and device_type = #{deviceType, jdbcTpye=VARCHAR}
+		</if>
+		<if test="osType != null and osType != '' ">
+			and os_type = #{osType, jdbcTpye=VARCHAR}
+		</if>
+		<if test="dinnerDeskNo != null and dinnerDeskNo != '' ">
+			and dinner_desk_no = #{dinnerDeskNo, jdbcTpye=VARCHAR}
+		</if>
+		<if test="dinnerNumber != null and dinnerNumber != '' ">
+			and dinner_number = #{dinnerNumber, jdbcTpye=DECIMAL}
+		</if>
+		<if test="dinnerRoomId != null and dinnerRoomId != ''">
+			and dinner_room_id = #{dinnerRoomId, jdbcType=VARCHAR}
+		</if>
+		<if test="customerId != null and customerId != ''">
+			and customer_id = #{customerId, jdbcType=VARCHAR}
+		</if>
+			<if test="createTime != null">
+			and create_time = #{createTime, jdbcTpye=DATE}
+		</if>
+		<if test="paymentTime != null">
+			and payment_time = #{paymentTime, jdbcTpye=DATE}
+		</if>
+		<if test="businessTime != null">
+			and business_time = #{businessTime, jdbcType=DATE}
+		</if>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		update t_order_info set del_flag = 'Y'
+		where order_id = #{orderId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="Order">
+		insert into t_order_info (order_id, business_id, create_time,
+		payment_time, business_time, order_origin_price,
+		order_preferential_price,
+		pay_type,
+		device_type,
+		os_type, dinner_room_id,
+		customer_id, 
+		dinner_desk_no, 
+		dinner_number,
+		create_by,
+		create_date, update_by, update_date,
+		del_flag)
+		values (#{orderId,jdbcType=VARCHAR}, #{businessId,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{paymentTime,jdbcType=TIMESTAMP}, #{businessTime,jdbcType=TIMESTAMP}, 
+		#{orderOriginPrice,jdbcType=DECIMAL},
+		#{OraclePreferentialPrice,jdbcType=DECIMAL},
+		#{payType,jdbcType=VARCHAR},
+		#{deviceType,jdbcType=VARCHAR},
+		#{osType,jdbcType=VARCHAR},
+		#{dinnerRoomId,jdbcType=VARCHAR},
+		#{customerId,jdbcType=VARCHAR}, 
+		#{dinnerDeskNo,jdbcType=VARCHAR}, 
+		#{dinnerNumber,jdbcType=DECIMAL},
+		#{createBy,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{delFlag,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="Order">
+		insert into t_order_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="businessId != null">
+				business_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="paymentTime != null">
+				payment_time,
+			</if>
+			<if test="businessTime != null">
+				business_time,
+			</if>
+			<if test="orderOriginPrice != null">
+				order_origin_price,
+			</if>
+			<if test="OraclePreferentialPrice != null">
+				order_preferential_price,
+			</if>
+			<if test="payType != null">
+				pay_type,
+			</if>
+			<if test="deviceType != null">
+				device_type,
+			</if>
+			<if test="osType != null">
+				os_type,
+			</if>
+			<if test="dinnerRoomId != null">
+				dinner_room_id,
+			</if>
+			<if test="customerId != null">
+				customer_id,
+			</if>
+			<if test="dinnerDeskNo != null">
+				dinner_desk_no,
+			</if>
+			<if test="dinnerNumber != null">
+				dinner_number,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="businessId != null">
+				#{businessId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="paymentTime != null">
+				#{paymentTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="businessTime != null">
+				#{businessTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderOriginPrice != null">
+				#{orderOriginPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="OraclePreferentialPrice != null">
+				#{OraclePreferentialPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="payType != null">
+				#{payType,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceType != null">
+				#{deviceType,jdbcType=VARCHAR},
+			</if>
+			<if test="osType != null">
+				#{osType,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerRoomId != null">
+				#{dinnerRoomId,jdbcType=VARCHAR},
+			</if>
+			<if test="customerId != null">
+				#{customerId,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerDeskNo != null">
+				#{dinnerDeskNo,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerNumber != null">
+				#{dinnerNumber,jdbcType=DECIMAL},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="Order">
+		update t_order_info
+		<set>
+			<if test="businessId != null">
+				business_id = #{businessId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="paymentTime != null">
+				payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="businessTime != null">
+				business_time = #{businessTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderOriginPrice != null">
+				order_origin_price = #{orderOriginPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="OraclePreferentialPrice != null">
+				order_preferential_price = #{OraclePreferentialPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="payType != null">
+				pay_type = #{payType,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceType != null">
+				device_type = #{deviceType,jdbcType=VARCHAR},
+			</if>
+			<if test="osType != null">
+				os_type = #{osType,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerRoomId != null">
+				dinner_room_id = #{dinnerRoomId,jdbcType=VARCHAR},
+			</if>
+			<if test="customerId != null">
+				customer_id = #{customerId,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerDeskNo != null">
+				dinner_desk_no = #{dinnerDeskNo,jdbcType=VARCHAR},
+			</if>
+		    <if test="dinnerNumber != null">
+				dinner_number = #{dinnerNumber,jdbcType=DECIMAL},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where order_id = #{orderId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="Order">
+		update t_order_info
+		set business_id = #{businessId,jdbcType=VARCHAR},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+		business_time = #{businessTime,jdbcType=TIMESTAMP},
+		order_origin_price = #{orderOriginPrice,jdbcType=DECIMAL},
+		order_preferential_price = #{OraclePreferentialPrice,jdbcType=DECIMAL},
+		pay_type = #{payType,jdbcType=VARCHAR},
+		device_type = #{deviceType,jdbcType=VARCHAR},
+		os_type = #{osType,jdbcType=VARCHAR},
+		dinner_room_id = #{dinnerRoomId,jdbcType=VARCHAR},
+		customer_id = #{customerId,jdbcType=VARCHAR},
+		dinner_desk_no = #{dinnerDeskNo,jdbcType=VARCHAR},
+		dinner_number = #{dinnerNumber,jdbcType=VARCHAR},
+		create_by = #{createBy,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		del_flag = #{delFlag,jdbcType=VARCHAR}
+		where order_id = #{orderId,jdbcType=VARCHAR}
+	</update>
+
+	<cache />
+</mapper>

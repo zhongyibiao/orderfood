@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.ReplyMessageMapper">
+	<resultMap type="ReplyMessage" id="replyMessageMap">
+		<id property="replyId" column="reply_id" />
+		<result property="toUserName" column="to_user_name" />
+		<result property="fromUserName" column="from_user_name" />
+		<result property="msgType" column="msg_type" />
+		<result property="createTime" column="create_time" />
+		<result property="content" column="content" />
+		<result property="musicUrl" column="music_url" />
+		<result property="hQMusicUrl" column="hq_music_url" />
+		<result property="articleCount" column="article_count" />
+		<result property="createBy" column="create_by" />
+		<result property="createDate" column="create_date" />
+		<result property="updateBy" column="update_by" />
+		<result property="updateDate" column="update_date" />
+		<result property="delFlag" column="del_flag" />
+		<collection property="articles" column="article_id" ofType="Article"
+			select="selectArticleByReplyMessageId" />
+	</resultMap>
+
+	<resultMap type="com.xiaoweiyunchuang.orderfood.domain.Article"
+		id="articleMap">
+		<id property="articleId" column="article_id" />
+		<result property="title" column="title" />
+		<result property="description" column="description" />
+		<result property="picUrl" column="pic_url" />
+		<result property="url" column="url" />
+		<result property="replyId" column="reply_id" />
+		<association property="reply" javaType="ReplyMessage"
+			column="reply_id" select="selectReplyMessageById" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		reply_id,to_user_name,from_user_name,msg_type,create_time,content,music_url,hq_music_url,article_count,
+		create_by, create_date, update_by, update_date, del_flag
+	</sql>
+
+
+	<insert id="addReplyMessage" parameterType="ReplyMessage">
+		insert into
+		t_reply_message(reply_id,to_user_name,from_user_name,msg_type,create_time,content,music_url,hq_music_url,article_count)
+		values
+		(#{replyId},#{toUserName},#{fromUserName},#{msgType},#{createTime},#{content},#{musicUrl},#{hQMusicUrl},#{articleCount})
+	</insert>
+
+	<insert id="addArticle" parameterType="com.xiaoweiyunchuang.orderfood.domain.Article">
+		INSERT INTO
+		t_reply_article
+		(article_id,reply_id,title,description,pic_url,url )
+		VALUES(#{articleId},#{replyId},#{title},#{description},#{picUrl},#{url})
+	</insert>
+
+	<select id="selectReplyMessages" parameterType="ReplyMessage"
+		resultMap="replyMessageMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_reply_message where del_flag = 'N'
+		order by create_time desc
+	</select>
+
+	<select id="selectReplyMessageById" parameterType="String"
+		resultMap="replyMessageMap">
+		select
+		reply_id,to_user_name,from_user_name,msg_type,create_time,content,music_url,hq_music_url,article_count
+		from t_reply_message where del_flag = 'N'
+		where reply_id = #{replyId}
+	</select>
+
+	<select id="selectArticleByReplyMessageId" parameterType="String"
+		resultMap="articleMap">
+		select article_id,reply_id,title,description,pic_url,url
+		from
+		t_reply_article
+		where reply_id = #{replyId}
+	</select>
+
+
+	<cache />
+
+
+</mapper>

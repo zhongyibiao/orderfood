@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.NumericalStatementMapper">
+	<resultMap id="FinanceReportResultMap" type="FinanceReport">
+		<result column="menu_quantity" jdbcType="DECIMAL" property="menuQuantity" />
+	</resultMap>
+
+	<select id="selectFinanceReports" parameterType="FinanceReport"
+		resultMap="FinanceReportResultMap">
+		select
+		sum(fact_pay) as salesAmount
+		from t_order_info
+		where del_flag = 'N'
+		<if test="startTime != null and startTime != '' ">
+			<![CDATA[and create_time >= #{startTime, jdbcType=TIMESTAMP}]]>
+		</if>
+		<if test="endTime != null and endTime != '' ">
+			<![CDATA[and create_time <= #{endTime,jdbcType=TIMESTAMP}]]>
+		</if>
+	</select>
+
+	<cache />
+</mapper>

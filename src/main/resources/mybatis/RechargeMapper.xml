@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.RechargeMapper">
+	<insert id="saveRecharge" parameterType = "com.xiaoweiyunchuang.orderfood.domain.Recharge">
+		insert into recharge_info(
+			recharge_id,
+			recharge_time,
+			recharge_amount,
+			recharge_integral,
+			recharge_type,
+			pay_type,
+			customer_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag)
+		values(
+			#{rechargeId, jdbcType=VARCHAR},
+			#{rechargeTime, jdbcType=DATE},
+			#{rechargeAmount, jdbcType=DECIMAL},
+			#{rechargeIntegral, jdbcType=INTEGER},
+			#{rechargeType, jdbcType=VARCHAR},
+			#{payType, jdbcType=INTEGER},
+			#{customerId, jdbcType=VARCHAR},
+			#{createBy, jdbcType=VARCHAR},
+			#{createDate, jdbcType=DATE},
+			#{updateBy, jdbcType=VARCHAR},
+			#{updateDate, jdbcType=DATE},
+			#{delFlag, jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="findRechargeById" resultType="com.xiaoweiyunchuang.orderfood.domain.Recharge" parameterType = "String">
+		select recharge_id as rechargeId,
+			   recharge_time as rechargeTime,
+			   recharge_amount as rechargeAmount,
+			   recharge_integral as rechargeIntegral,
+			   recharge_type as rechargeType,
+			   pay_type as payType,
+			   customer_id as customerId,
+			   create_by as createBy,
+			   create_date as createDate,
+			   update_by as updateBy,
+			   update_date as updateDate
+	    from recharge_info 
+	    <where>
+			<if test="rechargeId != null and rechargeId != '' ">
+				recharge_id = #{rechargeId, jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findRechargeInfoByTime" resultType="com.xiaoweiyunchuang.orderfood.domain.Recharge" parameterType = "com.xiaoweiyunchuang.orderfood.domain.Recharge">
+		select recharge_id as rechargeId,
+			   recharge_time as rechargeTime,
+			   recharge_amount as rechargeAmount,
+			   recharge_integral as rechargeIntegral,
+			   recharge_type as rechargeType,
+			   pay_type as payType,
+			   customer_id as customerId,
+			   create_by as createBy,
+			   create_date as createDate,
+			   update_by as updateBy,
+			   update_date as updateDate
+	    from recharge_info 
+	    <where>
+			<if test="startTime !=null and startTime != '' ">
+				<![CDATA[ and recharge_time  >=  #{startTime, jdbcType=DATE}  ]]>
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and recharge_time <=  #{endTime, jdbcType=DATE}  ]]>
+			</if>
+			<if test="customerId !=null and customerId != '' ">
+				and customer_id = #{customerId, jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.ReceiveMessageMapper">
+	<resultMap type="ReceiveMessage" id="receiveMessageMap">
+		<id property="receiveId" column="receive_id" />
+		<result property="toUserName" column="to_user_name" />
+		<result property="fromUserName" column="from_user_name" />
+		<result property="msgType" column="msg_type" />
+		<result property="createTime" column="create_time" />
+		<result property="msgId" column="msg_id" />
+		<result property="picUrl" column="pic_url" />
+		<result property="title" column="title" />
+		<result property="description" column="description" />
+		<result property="url" column="url" />
+		<result property="format" column="format" />
+		<result property="recognition" column="recognition" />
+		<result property="thumbMediaId" column="thumb_media_id" />
+		<result property="mediaId" column="media_id" />
+		<result property="locationX" column="location_x" />
+		<result property="locationY" column="location_y" />
+		<result property="scale" column="scale" />
+		<result property="label" column="label" />
+		<result property="event" column="event" />
+		<result property="eventKey" column="event_key" />
+		<result property="createBy" column="create_by" />
+		<result property="createDate" column="create_date" />
+		<result property="updateBy" column="update_by" />
+		<result property="updateDate" column="update_date" />
+		<result property="delFlag" column="del_flag" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		receive_id,to_user_name,from_user_name,msg_type,create_time,msg_id,content,pic_url,title,description,url,format,recognition,thumb_media_id,media_id,location_x,location_y,scale,label,event,event_key,
+		create_by, create_date, update_by, update_date, del_flag
+	</sql>
+
+	<insert id="addReceiveMessage" parameterType="ReceiveMessage">
+		insert into
+		t_receive_message
+		(receive_id,to_user_name,from_user_name,msg_type,create_time,msg_id,content,pic_url,title,description,url,format,recognition,thumb_media_id,media_id,location_x,location_y,scale,label,event,event_key)
+		values(#{receiveId},#{toUserName},#{fromUserName},#{msgType},#{createTime},#{msgId},#{content},#{picUrl},#{title},#{description},#{url},#{format},#{recognition},#{thumbMediaId},#{mediaId},#{locationX},#{locationY},#{scale},#{label},#{event},#{eventKey})
+	</insert>
+
+	<select id="selectReceiveMessages" parameterType="ReceiveMessage"
+		resultMap="receiveMessageMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_receive_message where del_flag = 'N'
+		order by create_time desc
+	</select>
+
+	<cache />
+</mapper>

@@ -1,0 +1,38 @@
+#image_file{
+	width:200px;
+	text-align：center;
+	overflow:hidden;
+}
+#showimg{
+	max-width:500px;
+	max-height:500px;
+}
+section{
+	height: 100%;
+}
+input{
+	width:200px;
+}
+.adminfooter{
+	background-color:#000;
+	color:#fff;
+	text-align:center;
+}
+.adminbodyer table tr td:nth-child(odd){
+	text-align:center;
+}
+.icon-plus{
+	cursor:pointer;
+}
+.icon-plus:hover{
+	color:red;
+}
+#showStandard .price{
+	width:50px;
+}
+#showStandard .menuConfName{
+	width:100px;
+}
+select{
+	width:200px;
+}

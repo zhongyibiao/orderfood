@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <title>后台系统</title>
+        <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="renderer" content="webkit">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        
+        <link href="../css/public/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/common.css" rel="stylesheet"/>
+        <link href="../css/jquery.Jcrop.min.css" rel="stylesheet"/>        
+        
+        <link href="../css/public/font-awesome.css" rel="stylesheet">
+        <link href="../css/style.css" rel="stylesheet">
+        <link href="../css/public/function.css" rel="stylesheet">
+        <link href="../css/addshop.css" rel="stylesheet"/>
+    </head>
+    <body  class="bg-default">
+	    <nav class="navbar navbar-inverse">
+	      <div class="container-fluid">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="#">点点餐后台系统</a>
+	        </div>
+	
+	        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	          <ul class="nav navbar-nav">
+	            <li><a href="#"><i class="fa fa-users db2"></i>会员管理</a></li>
+	            <li><a href="#"><i class="fa fa-user-plus db2"></i>推荐人管理</a></li>
+	            <li><a href="#"><i class="fa fa-money db2"></i>提现管理</a></li>
+	            <li><a href="#"><i class="fa fa-share-square-o db2 db3"></i>退出</a></li>
+	          </ul>
+	        </div>
+	
+	      </div>
+	   </nav>
+    	<section>
+    	<div class="adminbodyer row">
+    		
+    		<table class="col-md-5">
+    			<tr>
+    				<td>图片：</td>
+    				<td>
+    				<!-- <input type="file" name="image_file" id="image_file" onchange="fileSelectHandler()"/> -->
+    				<!--	<input type="file" name="shop_image" id="uploadImg"/>method="POST" enctype="multipart/form-data" action="/upload"-->
+    				<!--<iframe name="IframeuploadImg" style="display:none;" target="IframeuploadImg"></iframe> -->
+    					<form id="uploadImgForm">
+			    			<input type="file" name="file" id="uploadImg"/>
+			    		</form>
+			    		<input name="menuImg" type="hidden"></input>
+    				</td>
+    			</tr>
+    			<tr><td>名称：</td><td><input type="text" name="menuName"/></td></tr>
+    			<tr><td>规格：</td><td><i class="icon-plus" id="addStandard"></i></td></tr>
+    			<tr id="showStandard"><td class="opt"></td><td class="stand"></td></tr>
+    			
+    			<tr><td>风格：</td>
+    				<td><select id="" name="tastePoint"><option>不辣</option>
+    							<option>微辣</option>
+    							<option>中辣</option>
+    							<option>变态辣</option>
+    				</select></td>
+    			</tr>
+    			<tr>
+    				<td>所属分类</td>
+    				<td><select><option>湘菜</option><option>粤菜</option></select></td>
+    			</tr>
+    		</table>
+    		
+    		<div id="showimg" class="step2 col-md-7">
+    			<img id="preview" width="100%" height="100%"/>
+                <div class="info" style="display:none">
+                     <input type="text" id="filesize" name="filesize" />
+                     <input type="text" id="filetype" name="filetype" />
+                     <input type="text" id="filedim" name="filedim" />
+                     <input type="text" id="w" name="w" />
+                     <input type="text" id="h" name="h" />
+                </div>
+    		</div>
+    		
+    	</div>
+    	<div><a id="submitBtn">提交</a></div>
+  	</section>
+    	<div class="adminfooter">免责声明 Copyright ©2015 悦烟直销系统 All Rights Reserved. 粤ICP备15013732号-1</div>		
+   		<script src="../js/shopmenu/lib/require.js" data-main="../js/shopmenu/addshop"></script>
+    </body>
+</html>

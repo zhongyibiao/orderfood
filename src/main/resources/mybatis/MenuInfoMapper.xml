@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.MenuInfoMapper">
+  <resultMap id="BaseResultMap" type="MenuInfo">
+    <id column="menu_id" jdbcType="VARCHAR" property="menuId" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="menu_type_id" jdbcType="VARCHAR" property="menuTypeId" />
+    <result column="main_ingredient" jdbcType="VARCHAR" property="mainIngredient" />
+    <result column="accessories" jdbcType="VARCHAR" property="accessories" />
+    <result column="taste_point" jdbcType="VARCHAR" property="tastePoint" />
+    <result column="dinner_room_id" jdbcType="VARCHAR" property="dinnerRoomId" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    menu_id, menu_name, menu_type_id, main_ingredient, accessories, taste_point, dinner_room_id, 
+    create_by, create_date, update_by, update_date, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_menu_info
+    where del_flag = 'N' and menu_id = #{menuId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectMenuInfos" parameterType="MenuInfo"
+	resultMap="BaseResultMap">
+	select 
+    <include refid="Base_Column_List" />
+    from t_menu_info 
+    where del_flag = 'N' 
+    <if test="menuName != null and menuName != '' ">
+		and menu_name = #{menuName, jdbcType=VARCHAR}
+	</if>
+	<if test="menuTypeId != null and menuTypeId != '' ">
+		and menu_type_id = #{menuTypeId, jdbcType=VARCHAR}
+	</if>
+  </select>
+  <select id="selectByMenuTypeKey" parameterType="MenuType"
+	resultMap="BaseResultMap">
+	select 
+    <include refid="Base_Column_List" />
+    from t_menu_info 
+    where del_flag = 'N' 
+	<if test="menuTypeId != null and menuTypeId != '' ">
+		and menu_type_id = #{menuTypeId, jdbcType=VARCHAR}
+	</if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    update  t_menu_info set del_flag = 'Y' 
+    where menu_id = #{menuId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByMenuTypeKey" parameterType="java.lang.String">
+    update  t_menu_info set del_flag = 'Y' 
+    where menu_type_id = #{menuTypeId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="MenuInfo">
+    insert into t_menu_info (menu_id, menu_name, menu_type_id, 
+      main_ingredient, accessories, taste_point, 
+      dinner_room_id, create_by, create_date, 
+      update_by, update_date, del_flag
+      )
+    values (#{menuId,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, #{menuTypeId,jdbcType=VARCHAR}, 
+      #{mainIngredient,jdbcType=VARCHAR}, #{accessories,jdbcType=VARCHAR}, #{tastePoint,jdbcType=VARCHAR}, 
+      #{dinnerRoomId,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="MenuInfo">
+    insert into t_menu_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        menu_id,
+      </if>
+      <if test="menuName != null">
+        menu_name,
+      </if>
+      <if test="menuTypeId != null">
+        menu_type_id,
+      </if>
+      <if test="mainIngredient != null">
+        main_ingredient,
+      </if>
+      <if test="accessories != null">
+        accessories,
+      </if>
+      <if test="tastePoint != null">
+        taste_point,
+      </if>
+      <if test="dinnerRoomId != null">
+        dinner_room_id,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuTypeId != null">
+        #{menuTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="mainIngredient != null">
+        #{mainIngredient,jdbcType=VARCHAR},
+      </if>
+      <if test="accessories != null">
+        #{accessories,jdbcType=VARCHAR},
+      </if>
+      <if test="tastePoint != null">
+        #{tastePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="dinnerRoomId != null">
+        #{dinnerRoomId,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="MenuInfo">
+    update t_menu_info
+    <set>
+      <if test="menuName != null">
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuTypeId != null">
+        menu_type_id = #{menuTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="mainIngredient != null">
+        main_ingredient = #{mainIngredient,jdbcType=VARCHAR},
+      </if>
+      <if test="accessories != null">
+        accessories = #{accessories,jdbcType=VARCHAR},
+      </if>
+      <if test="tastePoint != null">
+        taste_point = #{tastePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="dinnerRoomId != null">
+        dinner_room_id = #{dinnerRoomId,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where menu_id = #{menuId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="MenuInfo">
+    update t_menu_info
+    set menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_type_id = #{menuTypeId,jdbcType=VARCHAR},
+      main_ingredient = #{mainIngredient,jdbcType=VARCHAR},
+      accessories = #{accessories,jdbcType=VARCHAR},
+      taste_point = #{tastePoint,jdbcType=VARCHAR},
+      dinner_room_id = #{dinnerRoomId,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR}
+    where menu_id = #{menuId,jdbcType=VARCHAR}
+  </update>
+  <cache />
+</mapper>

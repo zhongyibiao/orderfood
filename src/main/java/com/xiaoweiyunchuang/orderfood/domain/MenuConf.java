@@ -1,0 +1,151 @@
+package com.xiaoweiyunchuang.orderfood.domain;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+public class MenuConf implements Serializable {
+
+	private String menuConfId;
+
+	private String menuConfName;
+
+	private String menuConfType;
+
+	private BigDecimal menuPrice;
+
+	private BigDecimal menuPreferentialPrice;
+
+	private Integer menuQuantity;
+
+	private String menuId;
+
+	private String createBy;
+
+	private String createDate;
+
+	private String updateBy;
+
+	private String updateDate;
+
+	private String delFlag;
+
+	private static final long serialVersionUID = 1L;
+
+	public String getMenuConfId() {
+		return menuConfId;
+	}
+
+	public void setMenuConfId(String menuConfId) {
+		this.menuConfId = menuConfId == null ? null : menuConfId.trim();
+	}
+
+	public String getMenuId() {
+		return menuId;
+	}
+
+	public void setMenuId(String menuId) {
+		this.menuId = menuId == null ? null : menuId.trim();
+	}
+
+	public String getMenuConfName() {
+		return menuConfName;
+	}
+
+	public void setMenuConfName(String menuConfName) {
+		this.menuConfName = menuConfName == null ? null : menuConfName.trim();
+	}
+
+	public String getMenuConfType() {
+		return menuConfType;
+	}
+
+	public void setMenuConfType(String menuConfType) {
+		this.menuConfType = menuConfType;
+	}
+
+	public BigDecimal getMenuPrice() {
+		return menuPrice;
+	}
+
+	public void setMenuPrice(BigDecimal menuPrice) {
+		this.menuPrice = menuPrice;
+	}
+
+	public BigDecimal getMenuPreferentialPrice() {
+		return menuPreferentialPrice;
+	}
+
+	public void setMenuPreferentialPrice(BigDecimal menuPreferentialPrice) {
+		this.menuPreferentialPrice = menuPreferentialPrice;
+	}
+
+	public Integer getMenuQuantity() {
+		return menuQuantity;
+	}
+
+	public void setMenuQuantity(Integer menuQuantity) {
+		this.menuQuantity = menuQuantity;
+	}
+
+	public String getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy == null ? null : createBy.trim();
+	}
+
+	public String getUpdateBy() {
+		return updateBy;
+	}
+
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy == null ? null : updateBy.trim();
+	}
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getDelFlag() {
+		return delFlag;
+	}
+
+	public void setDelFlag(String delFlag) {
+		this.delFlag = delFlag == null ? null : delFlag.trim();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getClass().getSimpleName());
+		sb.append(" [");
+		sb.append("Hash = ").append(hashCode());
+		sb.append(", menuConfId=").append(menuConfId);
+		sb.append(", menuConfName=").append(menuConfName);
+		sb.append(", menuConfType=").append(menuConfType);
+		sb.append(", menuPrice=").append(menuPrice);
+		sb.append(", menuPreferentialPrice=").append(menuPreferentialPrice);
+		sb.append(", menuId=").append(menuId);
+		sb.append(", createBy=").append(createBy);
+		sb.append(", createDate=").append(createDate);
+		sb.append(", updateBy=").append(updateBy);
+		sb.append(", updateDate=").append(updateDate);
+		sb.append(", delFlag=").append(delFlag);
+		sb.append(", serialVersionUID=").append(serialVersionUID);
+		sb.append("]");
+		return sb.toString();
+	}
+}

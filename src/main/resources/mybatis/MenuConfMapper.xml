@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.MenuConfMapper">
+	<resultMap id="BaseResultMap" type="MenuConf">
+		<id column="menu_conf_id" jdbcType="VARCHAR" property="menuConfId" />
+		<result column="menu_conf_name" jdbcType="VARCHAR" property="menuConfName" />
+		<result column="menu_conf_type" jdbcType="VARCHAR" property="menuConfType" />
+		<result column="menu_price" jdbcType="DECIMAL" property="menuPrice" />
+		<result column="menu_preferential_price" jdbcType="DECIMAL" property="menuPreferentialPrice" />
+		<result column="menu_id" jdbcType="VARCHAR" property="menuId" />
+		<result column="menu_quantity" jdbcType="DECIMAL" property="menuQuantity" />
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		menu_conf_id, menu_conf_name,menu_conf_type, menu_price, menu_preferential_price, menu_id, menu_quantity,create_by, create_date,
+		update_by,
+		update_date, del_flag
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_menu_conf
+		where del_flag = 'N' and menu_conf_id = #{menuConfId,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByMenuKey" parameterType="MenuConf" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_menu_conf
+		where del_flag = 'N' and menu_id = #{menuId,jdbcType=VARCHAR}
+	</select>
+	<select id="selectMenuConfs" parameterType="MenuConf" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_menu_conf
+		where del_flag = 'N' and menu_conf_name = #{menuConfName,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		update t_menu_conf
+		set del_flag = 'Y'
+		where menu_conf_id = #{menuConfId,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByMenuKey" parameterType="java.lang.String">
+		update t_menu_conf
+		set del_flag = 'Y'
+		where menu_id = #{menuId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="MenuConf">
+		insert into 
+		t_menu_conf(
+		    menu_conf_id, 
+		    menu_conf_name,
+		    menu_conf_type, 
+		    menu_price,
+		    menu_preferential_price,
+			menu_id, menu_quantity,create_by, create_date,
+			update_by, update_date, del_flag
+		)values(#{menuConfId,jdbcType=VARCHAR}, 
+		    #{menuConfName,jdbcType=VARCHAR},
+		    #{menuConfType,jdbcType=VARCHAR},
+			#{menuPrice,jdbcType=DECIMAL},
+			#{menuPreferentialPrice,jdbcType=DECIMAL},
+			#{menuId,jdbcType=VARCHAR},
+			#{menuQuantity,jdbcType=DECIMAL},#{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+			#{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},
+			#{delFlag,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="MenuConf">
+		insert into t_menu_conf
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="menuConfId != null">
+				menu_conf_id,
+			</if>
+			<if test="menuConfName != null">
+				menu_conf_name,
+			</if>
+			<if test="menuConfType != null">
+				menu_conf_type,
+			</if>
+			<if test="menuPrice != null">
+				menu_price,
+			</if>
+			<if test="menuPreferentialPrice != null">
+				menu_preferential_price,
+			</if>
+			<if test="menuId != null">
+				menu_id,
+			</if>
+			<if test="menuQuantity != null">
+				menu_quantity,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="menuConfId != null">
+			   #{menuConfId,jdbcType=VARCHAR},
+			</if>
+			<if test="menuConfName != null">
+				#{menuConfName,jdbcType=VARCHAR},
+			</if>
+			<if test="menuConfType != null">
+			    #{menuConfType,jdbcType=VARCHAR},
+			</if>
+			<if test="menuPrice != null">
+				#{menuPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="menuPreferentialPrice != null">
+				#{menuPreferentialPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="menuId != null">
+				#{menuId,jdbcType=VARCHAR},
+			</if>
+			<if test="menuQuantity != null">
+				#{menuQuantity,jdbcType=VARCHAR},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="MenuConf">
+		update t_menu_conf
+		<set>
+			<if test="menuConfName != null">
+				menu_conf_name = #{menuConfName,jdbcType=VARCHAR},
+			</if>
+			<if test="menuConfType != null">
+				menu_conf_type = #{menuConfType,jdbcType=VARCHAR},
+			</if>
+			<if test="menuPrice != null">
+				menu_price = #{menuPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="menuPreferentialPrice != null">
+				menu_preferential_price = #{menuPreferentialPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="menuId != null">
+				menu_id = #{menuId,jdbcType=VARCHAR},
+			</if>
+			<if test="menuQuantity != null">
+				menu_quantity =#{menuQuantity,jdbcType=DECIMAL},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where menu_conf_id = #{menuConfId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="MenuConf">
+		update 
+		    t_menu_conf
+		set 
+		    menu_conf_name = #{menuConfName,jdbcType=VARCHAR},
+		    menu_conf_type = #{menuConfType,jdbcType=VARCHAR},
+			menu_price = #{menuPrice,jdbcType=DECIMAL},
+			menu_preferential_price = #{menuPreferentialPrice,jdbcType=DECIMAL},
+			menu_id = #{menuId,jdbcType=VARCHAR},
+			menu_quantity = #{menuQuantity,jdbcType=DECIMAL},
+	 		create_by = #{createBy,jdbcType=VARCHAR},
+			create_date = #{createDate,jdbcType=TIMESTAMP},
+			update_by = #{updateBy,jdbcType=VARCHAR},
+			update_date = #{updateDate,jdbcType=TIMESTAMP},
+			del_flag = #{delFlag,jdbcType=VARCHAR}
+		where 
+		     menu_conf_id = #{menuConfId,jdbcType=VARCHAR}
+	</update>
+	<cache />
+</mapper>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.DinnerDeskMapper">
+	<resultMap id="BaseResultMap"
+		type="DinnerDesk">
+		<id column="dinner_desk_id" jdbcType="VARCHAR" property="dinnerDeskId" />
+		<result column="dinner_desk_name" jdbcType="VARCHAR" property="dinnerDeskName" />
+		<result column="dinner_desk_position" jdbcType="VARCHAR"
+			property="dinnerDeskPosition" />
+		<result column="dinner_desk_type" jdbcType="VARCHAR" property="dinnerDeskType" />
+		<result column="dinner_desk_type_Des" jdbcType="VARCHAR"
+			property="dinnerDeskTypeDes" />
+		<result column="dinner_desk_man_qty" jdbcType="DECIMAL"
+			property="dinnerDeskManQty" />
+		<result column="dinner_room_id" jdbcType="VARCHAR" property="dinnerRoomId" />
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		dinner_desk_id, dinner_desk_name, dinner_desk_position, dinner_desk_type,
+		dinner_desk_type_Des,
+		dinner_desk_man_qty, dinner_room_id, create_by, create_date, update_by, update_date,
+		del_flag
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_dinner_desk
+		where del_flag = 'N' and dinner_desk_id = #{dinnerDeskId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectByDinnerRoomKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_dinner_desk
+		where del_flag = 'N' and dinner_room_id = #{dinnerRoomId,jdbcType=VARCHAR}
+	</select>
+    
+    <select id="selectDinnerDesks" parameterType="DinnerDesk"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_dinner_desk
+		where del_flag = 'N' 
+		<if test="dinnerRoomId != null and dinnerRoomId != '' ">
+			and dinner_room_id = #{dinnerRoomId, jdbcType=VARCHAR}
+		</if>
+		<if test="dinnerDeskName != null and dinnerDeskName != '' ">
+			and dinner_desk_name = #{dinnerDeskName, jdbcType=VARCHAR}
+		</if>
+		<if test="dinnerDeskType != null and dinnerDeskType != '' ">
+			and dinner_desk_type = #{dinnerDeskType, jdbcType=VARCHAR}
+		</if>	
+		<if test="dinnerDeskPosition != null and dinnerDeskPosition != '' ">
+			and dinner_desk_position = #{dinnerDeskPosition, jdbcType=VARCHAR}
+		</if>	
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		update t_dinner_desk
+		set del_flag = 'Y'
+		where dinner_desk_id = #{dinnerDeskId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="DinnerDesk">
+		insert into t_dinner_desk (dinner_desk_id, dinner_desk_name,
+		dinner_desk_position,
+		dinner_desk_type, dinner_desk_type_Des, dinner_desk_man_qty,
+		dinner_room_id, create_by, create_date,
+		update_by, update_date, del_flag
+		)
+		values (#{dinnerDeskId,jdbcType=VARCHAR},
+		#{dinnerDeskName,jdbcType=VARCHAR},
+		#{dinnerDeskPosition,jdbcType=VARCHAR},
+		#{dinnerDeskType,jdbcType=VARCHAR},
+		#{dinnerDeskTypeDes,jdbcType=VARCHAR},
+		#{dinnerDeskManQty,jdbcType=DECIMAL},
+		#{dinnerRoomId,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="DinnerDesk">
+		insert into t_dinner_desk
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="dinnerDeskId != null">
+				dinner_desk_id,
+			</if>
+			<if test="dinnerDeskName != null">
+				dinner_desk_name,
+			</if>
+			<if test="dinnerDeskPosition != null">
+				dinner_desk_position,
+			</if>
+			<if test="dinnerDeskType != null">
+				dinner_desk_type,
+			</if>
+			<if test="dinnerDeskTypeDes != null">
+				dinner_desk_type_Des,
+			</if>
+			<if test="dinnerDeskManQty != null">
+				dinner_desk_man_qty,
+			</if>
+			<if test="dinnerRoomId != null">
+				dinner_room_id,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="dinnerDeskId != null">
+				#{dinnerDeskId,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerDeskName != null">
+				#{dinnerDeskName,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerDeskPosition != null">
+				#{dinnerDeskPosition,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerDeskType != null">
+				#{dinnerDeskType,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerDeskTypeDes != null">
+				#{dinnerDeskTypeDes,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerDeskManQty != null">
+				#{dinnerDeskManQty,jdbcType=DECIMAL},
+			</if>
+			<if test="dinnerRoomId != null">
+				#{dinnerRoomId,jdbcType=VARCHAR},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="DinnerDesk">
+		update t_dinner_desk
+		<set>
+			<if test="dinnerDeskName != null">
+				dinner_desk_name = #{dinnerDeskName,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerDeskPosition != null">
+				dinner_desk_position = #{dinnerDeskPosition,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerDeskType != null">
+				dinner_desk_type = #{dinnerDeskType,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerDeskTypeDes != null">
+				dinner_desk_type_Des = #{dinnerDeskTypeDes,jdbcType=VARCHAR},
+			</if>
+			<if test="dinnerDeskManQty != null">
+				dinner_desk_man_qty = #{dinnerDeskManQty,jdbcType=DECIMAL},
+			</if>
+			<if test="dinnerRoomId != null">
+				dinner_room_id = #{dinnerRoomId,jdbcType=VARCHAR},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where dinner_desk_id = #{dinnerDeskId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="DinnerDesk">
+	update t_dinner_desk
+	set dinner_desk_name = #{dinnerDeskName,jdbcType=VARCHAR},
+	dinner_desk_position = #{dinnerDeskPosition,jdbcType=VARCHAR},
+	dinner_desk_type = #{dinnerDeskType,jdbcType=VARCHAR},
+	dinner_desk_type_Des = #{dinnerDeskTypeDes,jdbcType=VARCHAR},
+	dinner_desk_man_qty = #{dinnerDeskManQty,jdbcType=DECIMAL},
+	dinner_room_id = #{dinnerRoomId,jdbcType=VARCHAR},
+	create_by = #{createBy,jdbcType=VARCHAR},
+	create_date = #{createDate,jdbcType=TIMESTAMP},
+	update_by = #{updateBy,jdbcType=VARCHAR},
+	update_date = #{updateDate,jdbcType=TIMESTAMP},
+	del_flag = #{delFlag,jdbcType=VARCHAR}
+	where dinner_desk_id = #{dinnerDeskId,jdbcType=VARCHAR}
+	</update>
+	<cache />
+</mapper>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.OrderDetailMapper">
+  <resultMap id="BaseResultMap" type="OrderDetail">
+    <id column="order_detail_id" jdbcType="VARCHAR" property="orderDetailId" />
+    <result column="menu_id" jdbcType="VARCHAR" property="menuId" />
+    <result column="menu_conf_id" jdbcType="VARCHAR" property="menuConfId" />
+    <result column="menu_conf_name" jdbcType="VARCHAR" property="menuConfName" />
+    <result column="menu_quantity" jdbcType="DECIMAL" property="menuQuantity" />
+    <result column="menu_origin_price" jdbcType="DECIMAL" property="menuOriginPrice" />
+    <result column="menu_preferential_price" jdbcType="DECIMAL" property="menuPreferentialPrice" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+      t1.order_detail_id, 
+      t1.menu_id,
+      t1.menu_conf_id,
+      t2.menu_conf_name,
+      t1.menu_quantity, 
+      t1.menu_origin_price, 
+      t1.menu_preferential_price, 
+      t1.order_id, t1.create_by, t1.create_date, t1.update_by, t1.update_date, 
+      t1.del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="OrderDetail" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+       from t_order_detail t1,t_menu_conf t2
+    where 
+	   t1.del_flag = 'N' 
+	   and t1.menu_conf_id = t2.menu_conf_id
+	   and t1.order_detail_id = #{orderDetailId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectOrderDetailByOrderKey" parameterType="OrderDetail" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+     from t_order_detail t1,t_menu_conf t2
+    where  t1.del_flag = 'N' 
+     and t1.menu_conf_id = t2.menu_conf_id
+     and t1.order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectOrderDetails" parameterType="OrderDetail" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_detail t1,t_menu_conf t2
+    where  t1.del_flag = 'N' 
+      and t1.menu_conf_id = t2.menu_conf_id
+	  and t1.order_id = #{orderId,jdbcType=VARCHAR}
+	  and t1.menu_conf_id = #{menuConfId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="OrderDetail">
+    update  t_order_detail set del_flag = 'Y'
+    where order_detail_id = #{orderDetailId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="OrderDetail">
+    insert into t_order_detail 
+      (order_detail_id,
+       menu_id,
+       menu_conf_id, 
+       menu_quantity, menu_origin_price, menu_preferential_price, 
+        order_id, 
+       create_by, create_date, update_by, 
+       update_date, del_flag)
+    values (#{orderDetailId,jdbcType=VARCHAR}, 
+      #{menuId,jdbcType=VARCHAR}, 
+      #{menuConfId,jdbcType=VARCHAR}, 
+      #{menuQuantity,jdbcType=DECIMAL}, #{menuOriginPrice,jdbcType=DECIMAL}, 
+      #{menuPreferentialPrice,jdbcType=DECIMAL}, 
+      #{orderId,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="OrderDetail">
+    insert into t_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderDetailId != null">
+        order_detail_id,
+      </if>
+      <if test="menuId != null">
+        menu_id,
+      </if>
+      <if test="menuConfId != null">
+        menu_conf_id,
+      </if>
+      <if test="menuQuantity != null">
+        menu_quantity,
+      </if>
+      <if test="menuOriginPrice != null">
+        menu_origin_price,
+      </if>
+      <if test="menuPreferentialPrice != null">
+        menu_preferential_price,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderDetailId != null">
+        #{orderDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null">
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuConfId != null">
+        #{menuConfId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuQuantity != null">
+        #{menuQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="menuOriginPrice != null">
+        #{menuOriginPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="menuPreferentialPrice != null">
+        #{menuPreferentialPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="OrderDetail">
+    update t_order_detail
+    <set>
+      <if test="menuId != null">
+        menu_id = #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuConfId != null">
+        menu_conf_id = #{menuConfId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuQuantity != null">
+        menu_quantity = #{menuQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="menuOriginPrice != null">
+        menu_origin_price = #{menuOriginPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="menuPreferentialPrice != null">
+        menu_preferential_price = #{menuPreferentialPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_detail_id = #{orderDetailId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="OrderDetail">
+    update t_order_detail
+    set 
+      menu_id = #{menuId,jdbcType=VARCHAR},
+      menu_conf_id = #{menuConfId,jdbcType=VARCHAR},
+      menu_quantity = #{menuQuantity,jdbcType=DECIMAL},
+      menu_origin_price = #{menuOriginPrice,jdbcType=DECIMAL},
+      menu_preferential_price = #{menuPreferentialPrice,jdbcType=DECIMAL},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR}
+    where order_detail_id = #{orderDetailId,jdbcType=VARCHAR}
+  </update>
+  <cache />
+</mapper>

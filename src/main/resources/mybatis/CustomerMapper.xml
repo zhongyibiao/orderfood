@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.CustomerMapper">
+	<insert id="saveCustomer" parameterType="Customer">
+		insert into customer_info(customer_id,
+			name,
+			phone_num,
+			wechat_id,
+			birthday,
+			balance,
+			integral,
+			address,
+			vip_level,
+			create_date,
+			create_by,
+			update_date,
+			update_by,
+			del_flag)
+		values(#{customerId,jdbcType=VARCHAR},
+			   #{name,jdbcType=VARCHAR},
+			   #{phoneNum,jdbcType=VARCHAR},
+			   #{wechatId,jdbcType=VARCHAR},
+			   #{birthday,jdbcType=DATE}, 
+			   #{balance,jdbcType=DECIMAL}, 
+			   #{integral,jdbcType=INTEGER}, 
+			   #{address,jdbcType=VARCHAR},
+			   #{vipLevel, jdbcType=VARCHAR},
+			   #{createDate, jdbcType=DATE},
+			   #{createBy, jdbcType=VARCHAR},
+			   #{updateDate, jdbcType=DATE},
+			   #{updateBy, jdbcType=VARCHAR},
+			   #{delFlag, jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="updateCustomer" parameterType="com.xiaoweiyunchuang.orderfood.domain.Customer">
+		update customer_info 
+		<set>
+			<if test="name != null and name != '' ">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNum != null and phoneNum != '' ">
+				phone_num = #{phoneNum,jdbcType=VARCHAR},
+			</if>	
+			<if test="wechatId != null and wechatId != ''">
+				wechat_id = #{wechatId,jdbcType=VARCHAR} ,
+			</if>
+			<if test="birthday != null">
+				birthday = #{birthday, jdbcType=DATE},
+			</if>
+			<if test="balance != null">
+				balance = #{balance,jdbcType=DECIMAL},
+			</if>
+			<if test="integral != null">
+				integral = #{integral,jdbcType=INTEGER},
+			</if>
+			<if test="address != null and address !=  '' ">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="vipLevel != null">
+				vip_level = #{vipLevel,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate, jdbcType=DATE},
+			</if>
+			<if test="password != null and password != '' ">
+				password = #{password, jdbcType=VARCHAR}
+			</if>
+		</set>
+		where customer_id = #{customerId,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="findCustomerById" resultType="Customer">
+		select customer_id as customerId,
+			name, phone_num as phoneNum, 
+			wechat_id as wechatId, birthday,
+			balance, integral, address, 
+			vip_level as vipLevel 
+			from customer_info where customer_id = #{customerId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="findCustomerByName" resultType="Customer">
+		select customer_id as customerId,
+			name, phone_num as phoneNum, 
+			wechat_id as wechatId, birthday,
+			balance, integral, address, 
+			vip_level as vipLevel 
+			from customer_info where name = #{name,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="findCustomerInfo" resultType="com.xiaoweiyunchuang.orderfood.domain.Customer" parameterType = "com.xiaoweiyunchuang.orderfood.domain.Customer">
+		select customer_id as customerId,
+			   name, 
+			   phone_num as phoneNum, 
+			   wechat_id as wechatId,
+			   birthday,
+			   balance, 
+			   integral, 
+			   address, 
+			   vip_level as vipLevel 
+		from customer_info
+		<where>
+			<if test="customerId != null and customerId != '' ">
+				customer_id = #{customerId, jdbcType=VARCHAR}
+			</if>
+			<if test="name != null">
+				and name lick concat(concat(#{name, jdbcType=VARCHAR}),'%') 
+			</if>
+			<if test="phoneNum != null and phoneNum != '' ">
+				and phone_num = #{phoneNum, jdbcType=VARCHAR}
+			</if>
+			<if test="birthday != null">
+				and birthday = #{birthday, jdbcType=DATE}
+			</if>
+			<if test="createDate != null">
+				and create_date = #{createDate, jdbcType=DATE}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAllCustomer" resultType="Customer">
+		select customer_id as customerId,
+			name, phone_num as phoneNum, 
+			wechat_id as wechatId, birthday,
+			balance, integral, address, 
+			vip_level as vipLevel 
+			from customer_info
+	</select>
+	
+	<!-- <delete id="deleteCustomerById">
+		delete from customer_info where customer_id = #{customerId,jdbcType=VARCHAR}
+	</delete>
+	
+	<delete id="deleteAllCustomer">
+		delete from customer_info
+	</delete> -->
+</mapper>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>    
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"  
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">  
+<head>    
+<meta charset="UTF-8" />    
+<title>Insert title here</title>    
+</head>    
+<body>    
+            错误信息：<h4 th:text="${msg}"></h4>    
+       <form action="" method="post">    
+           <p>账号：<input type="text" name="username" value="admin"/></p>    
+           <p>密码：<input type="text" name="password" value="123456"/></p>    
+           <p>验证码：<input type="text" name="randomcode"/>  
+           <img th:src="@{/validatecodeServlet}" height="20px" width="60px" onclick="random(this)"/></p>
+           <!--  
+           <P><input type="checkbox" name="rememberMe" value="true"/>记住我</P> 
+           -->     
+           <p><input type="submit" value="登录" onclick="return loginValid()"/></p>    
+       </form>    
+       <script type="text/javascript" th:inline="javascript">  
+          function random(tmp){
+        	  /*<![CDATA[*/
+               if(document.getElementsByName("username")[0].value == ''){
+            	   alert("请先填写用户名!");
+            	   return;
+               }
+               tmp.src="/validatecodeServlet?rnd="+Math.random()+"&username=" + document.getElementsByName("username")[0].value;  
+          }
+
+          function loginValid(){
+        	  /*<![CDATA[*/
+               if(document.getElementsByName("username")[0].value == ''){
+            	   alert("请先填写用户名!");
+            	   return  false;
+               }
+               if(document.getElementsByName("password")[0].value == ''){
+            	   alert("请先填写密码!");
+            	   return false;
+               }
+               
+               if(document.getElementsByName("randomcode")[0].value == ''){
+            	   alert("请先填写验证码!");
+            	   return false;
+               }
+               
+          }
+          
+          /*]]>*/
+          
+       </script>  
+</body>    
+</html>

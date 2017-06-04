@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.SysConfigMapper">
+	<resultMap id="BaseResultMap" type="SysConfig">
+		<id column="cfg_id" jdbcType="VARCHAR" property="cfgId" />
+		<result column="cfg_name" jdbcType="VARCHAR" property="cfgName" />
+		<result column="cfg_code" jdbcType="VARCHAR" property="cfgCode" />
+		<result column="cfg_value" jdbcType="VARCHAR" property="cfgValue" />
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		cfg_id, cfg_name, cfg_code, cfg_value, create_by, create_date, update_by,
+		update_date,
+		del_flag
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_sys_config
+		where del_flag = 'N' and cfg_id = #{cfgId,jdbcType=VARCHAR}
+	</select>
+	<select id="selectSysConfigs" parameterType="SysConfig"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_sys_config
+		where del_flag = 'N'
+		<if test="cfgCode != null and cfgCode != '' ">
+			and cfg_code = #{cfgCode,jdbcType=VARCHAR}
+		</if>
+		<if test="cfgName != null and cfgName != '' ">
+			and cfg_name = #{cfgName,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_sys_config
+		where cfg_id = #{cfgId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="SysConfig">
+		insert into t_sys_config (cfg_id, cfg_name, cfg_code,
+		cfg_value, create_by, create_date,
+		update_by, update_date, del_flag
+		)
+		values (#{cfgId,jdbcType=VARCHAR}, #{cfgName,jdbcType=VARCHAR},
+		#{cfgCode,jdbcType=VARCHAR},
+		#{cfgValue,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+		#{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},
+		#{delFlag,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="SysConfig">
+		insert into t_sys_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cfgId != null">
+				cfg_id,
+			</if>
+			<if test="cfgName != null">
+				cfg_name,
+			</if>
+			<if test="cfgCode != null">
+				cfg_code,
+			</if>
+			<if test="cfgValue != null">
+				cfg_value,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cfgId != null">
+				#{cfgId,jdbcType=VARCHAR},
+			</if>
+			<if test="cfgName != null">
+				#{cfgName,jdbcType=VARCHAR},
+			</if>
+			<if test="cfgCode != null">
+				#{cfgCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cfgValue != null">
+				#{cfgValue,jdbcType=VARCHAR},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="SysConfig">
+		update t_sys_config
+		<set>
+			<if test="cfgName != null">
+				cfg_name = #{cfgName,jdbcType=VARCHAR},
+			</if>
+			<if test="cfgCode != null">
+				cfg_code = #{cfgCode,jdbcType=VARCHAR},
+			</if>
+			<if test="cfgValue != null">
+				cfg_value = #{cfgValue,jdbcType=VARCHAR},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where cfg_id = #{cfgId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="SysConfig">
+		update t_sys_config
+		set cfg_name = #{cfgName,jdbcType=VARCHAR},
+		cfg_code = #{cfgCode,jdbcType=VARCHAR},
+		cfg_value = #{cfgValue,jdbcType=VARCHAR},
+		create_by = #{createBy,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		del_flag = #{delFlag,jdbcType=VARCHAR}
+		where cfg_id = #{cfgId,jdbcType=VARCHAR}
+	</update>
+	<cache />
+</mapper>

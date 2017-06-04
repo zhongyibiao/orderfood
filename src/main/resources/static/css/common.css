@@ -1,0 +1,23 @@
+.clearfix:after {
+ clear: both;
+}
+.clearfix:before, .clearfix:after {
+ display: table;
+ content: " ";
+}
+.clearfix:after {
+ clear: both;
+}
+.main_center{
+	width:1080px;
+	margin:auto;
+}
+.bgheader{
+	background-color:#00a5b9;
+}
+.mainer{
+	text-align:right;
+	color:#fff;
+	height:22px;
+	line-height:22px;
+}

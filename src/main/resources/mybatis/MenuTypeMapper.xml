@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoweiyunchuang.orderfood.mapper.MenuTypeMapper">
+	<resultMap id="BaseResultMap"
+		type="MenuType">
+		<id column="menu_type_id" jdbcType="VARCHAR" property="menuTypeId" />
+		<result column="menu_type_name" jdbcType="VARCHAR" property="menuTypeName" />
+		<result column="menu_type_desc" jdbcType="VARCHAR" property="menuTypeDesc" />
+		<result column="menu_type_img" jdbcType="VARCHAR" property="menuTypeImg" />
+		<result column="create_by" jdbcType="VARCHAR" property="createBy" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+		<result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+		<result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+		<result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		menu_type_id, menu_type_name, menu_type_desc,menu_type_img, create_by, create_date, update_by,
+		update_date, del_flag
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_menu_type
+		where del_flag = 'N' and menu_type_id = #{menuTypeId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectMenuTypes" parameterType="MenuType"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_menu_type
+		where del_flag = 'N'
+		<if test="menuTypeName != null and menuTypeName != '' ">
+		   and menu_type_name = #{menuTypeName, jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	   update t_menu_type set del_flag = 'Y'
+	        where menu_type_id = #{menuTypeId,jdbcType=VARCHAR}
+	</delete>
+	
+	<insert id="insert" parameterType="MenuType">
+		insert into 
+		t_menu_type (menu_type_id,menu_type_name,menu_type_desc,menu_type_img,
+		create_by, create_date, update_by,
+		update_date, del_flag)
+		values (#{menuTypeId,jdbcType=VARCHAR}, 
+		#{menuTypeName,jdbcType=VARCHAR},
+		#{menuTypeDesc,jdbcType=VARCHAR},
+		#{menuTypeImg,jdbcType=VARCHAR},
+		#{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR},
+		#{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="MenuType">
+		insert into t_menu_type
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="menuTypeId != null">
+				menu_type_id,
+			</if>
+			<if test="menuTypeName != null">
+				menu_type_name,
+			</if>
+			<if test="menuTypeDesc != null">
+				menu_type_desc,
+			</if>
+			<if test="menuTypeImg != null">
+				menu_type_img,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="updateDate != null">
+				update_date,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="menuTypeId != null">
+				#{menuTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="menuTypeName != null">
+				#{menuTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="menuTypeDesc != null">
+				#{menuTypeDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="menuTypeImg != null">
+				#{menuTypeImg,jdbcType=VARCHAR},
+			</if>
+			<if test="createBy != null">
+				#{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="MenuType">
+		update t_menu_type
+		<set>
+			<if test="menuTypeName != null">
+				menu_type_name = #{menuTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="menuTypeDesc != null">
+				menu_type_desc = #{menuTypeDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="menuTypeImg != null">
+				menu_type_img = #{menuTypeImg,jdbcType=VARCHAR},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				update_date = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				del_flag = #{delFlag,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where menu_type_id = #{menuTypeId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="MenuType">
+		update t_menu_type
+		set menu_type_name = #{menuTypeName,jdbcType=VARCHAR},
+		menu_type_desc = #{menuTypeDesc,jdbcType=VARCHAR},
+		menu_type_img = #{menuTypeImg,jdbcType=VARCHAR},
+		create_by = #{createBy,jdbcType=VARCHAR},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_by = #{updateBy,jdbcType=VARCHAR},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		del_flag = #{delFlag,jdbcType=VARCHAR}
+		where menu_type_id = #{menuTypeId,jdbcType=VARCHAR}
+	</update>
+	<cache />
+</mapper>
