@@ -1,5 +1,6 @@
 package com.xiaoweiyunchuang.orderfood.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
@@ -43,6 +44,32 @@ public class MenuConfController extends AbstractController {
 			return new ResponseEntity<MenuConf>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<MenuConf>(MenuConf, HttpStatus.OK);
+	}
+	
+	// -------------------Retrieve All------------------- //
+	@ApiOperation("通过ids查询菜品配制,菜品配制id用逗号隔开，如：ids=xxx,xxx,xx")
+	@RequestMapping(value = "/menuConf/v1/{ids}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<MenuConf>> getMenuConfv1(@ApiParam("菜品配制ids") @PathVariable("ids") String ids) {
+		logger.info("Fetching MenuConf with ids " + ids);
+
+		String[] menuConfIds = ids.split(",");
+		List<MenuConf> menuConfs = new ArrayList<MenuConf>();
+
+		for (int i = 0; i < menuConfIds.length; i++) {
+			String menuConfId = menuConfIds[i];
+			MenuConf menuConf = menuConfService.selectByPrimaryKey(menuConfId);
+			if (menuConf == null) {
+				logger.info("MenuInfo with id " + menuConfId + " not found");
+				break;
+			}
+			menuConfs.add(menuConf);
+		}
+
+		if (menuConfs == null || menuConfs.size() < 1) {
+			return new ResponseEntity<List<MenuConf>>(HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<List<MenuConf>>(menuConfs, HttpStatus.OK);
 	}
 
 	// -------------------Retrieve Page------------------- //

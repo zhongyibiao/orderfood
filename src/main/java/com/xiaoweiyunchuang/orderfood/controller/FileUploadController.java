@@ -61,7 +61,7 @@ public class FileUploadController extends AbstractController {
 				logger.info("上传的后缀名为：" + suffixName);
 
 				// 文件上传路径
-				String filePath = "D:/Program Files/upload/files/";
+				String filePath = "D:/Apache24/htdocs/images";
 
 				// 解决中文问题，liunx下中文路径，图片显示问题
 				fileName = UUID.randomUUID() + suffixName;
@@ -136,7 +136,7 @@ public class FileUploadController extends AbstractController {
 					String suffixName = fileName.substring(fileName.lastIndexOf("."));
 					logger.info("上传的后缀名为：" + suffixName);
 					// 文件上传路径
-					String filePath = "D:/Program Files/upload/files/";
+					String filePath = "D:/Apache24/htdocs/images";
 					// 解决中文问题，liunx下中文路径，图片显示问题
 					fileName = UUID.randomUUID() + suffixName;
 					File dest = new File(filePath + fileName);
